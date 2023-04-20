@@ -87,7 +87,7 @@
                 android:id="@+id/textView9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="      Create yours NOW"
+                android:text="      Password"
                 android:textColor="#000000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
