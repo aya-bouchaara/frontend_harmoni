@@ -55,7 +55,7 @@
 
 
             <EditText
-                android:id="@+id/editTextTextPersonName"
+                android:id="@+id/etRUserName"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="32dp"
@@ -83,7 +83,7 @@
 
             <EditText
 
-                android:id="@+id/editTextTextPersonName2"
+                android:id="@+id/etREmail"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="32dp"
@@ -94,8 +94,9 @@
                 android:hint="   user@gmail.com"
                 android:inputType="textPersonName"
                 android:textColorHint="#858585" />
+
             <TextView
-                android:id="@+id/password"
+                android:id="@+id/textView12"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="      Enter your password"
@@ -104,7 +105,7 @@
                 android:textStyle="bold" />
             <EditText
 
-                android:id="@+id/editTextTextPersonName3"
+                android:id="@+id/etRPassword"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="32dp"
@@ -123,9 +124,10 @@
                 android:textColor="#000000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
             <EditText
 
-                android:id="@+id/editTextTextPersonName4"
+                android:id="@+id/etRConfirm"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="32dp"
@@ -138,7 +140,7 @@
                 android:textColorHint="#858585" />
 
             <Button
-                android:id="@+id/button6"
+                android:id="@+id/btnRegister"
                 style="@android:style/Widget.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
