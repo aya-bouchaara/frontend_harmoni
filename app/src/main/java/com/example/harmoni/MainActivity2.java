@@ -36,13 +36,7 @@ public class MainActivity2 extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        btn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent it=new Intent(MainActivity2.this, dashboard2.class);
-                startActivity(it);
 
-            }
-        });
+       
     }
 }

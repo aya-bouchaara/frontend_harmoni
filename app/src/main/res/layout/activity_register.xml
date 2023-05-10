@@ -54,7 +54,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName"
+                android:id="@+id/etRUserName"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="32dp"
@@ -80,7 +80,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/editTextUseremail"
+                android:id="@+id/etREmail"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="32dp"
@@ -107,7 +107,7 @@
 
             <EditText
 
-                android:id="@+id/editText_userpassword"
+                android:id="@+id/etRPassword"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="32dp"
@@ -131,7 +131,7 @@
 
             <EditText
 
-                android:id="@+id/editText_userpassword2"
+                android:id="@+id/etRConfirm"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="32dp"
@@ -144,8 +144,9 @@
                 android:inputType="textPersonName"
                 android:textColorHint="#858585" />
 
+
             <Button
-                android:id="@+id/button6"
+                android:id="@+id/btnRegister"
                 style="@android:style/Widget.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
