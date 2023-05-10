@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity2 extends AppCompatActivity {
-    Button btn2,btn3;
+    Button btn2,btn3, btn4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,6 +16,7 @@ public class MainActivity2 extends AppCompatActivity {
 
         btn2=findViewById(R.id.button2);
         btn3=findViewById(R.id.button3);
+        btn4=findViewById(R.id.button5);
 
 
         //listener for button 'Log in'
@@ -33,6 +34,14 @@ public class MainActivity2 extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent =new Intent(MainActivity2.this, register.class);
                 startActivity(intent);
+            }
+        });
+        btn4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it=new Intent(MainActivity2.this, dashboard2.class);
+                startActivity(it);
+
             }
         });
     }
