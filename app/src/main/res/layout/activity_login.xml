@@ -53,13 +53,13 @@
                 android:paddingStart="32dp"
                 android:paddingTop="16dp"
                 android:paddingEnd="32dp"
-                android:text="Enter your Email"
+                android:text="Enter your Name"
                 android:textColor="#000000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName"
+                android:id="@+id/etUserName"
                 android:layout_width="match_parent"
 
                 android:layout_height="50dp"
@@ -67,7 +67,7 @@
                 android:layout_marginTop="3dp"
                 android:layout_marginEnd="32dp"
                 android:background="@drawable/grey_background"
-                android:hint="   user@gmail.com"
+                android:hint="   username"
                 android:inputType="textEmailAddress"
                 android:textColor="#000000"
                 android:textColorHint="#858585" />
@@ -85,7 +85,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName2"
+                android:id="@+id/etPassword"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="32dp"
@@ -98,7 +98,7 @@
                 android:textColorHint="#858585" />
 
             <Button
-                android:id="@+id/button6"
+                android:id="@+id/btnLogin"
                 style="@android:style/Widget.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
