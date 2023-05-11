@@ -1,82 +1,133 @@
 package com.example.harmoni;
 
-import androidx.annotation.NonNull;
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.Toast;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
-public class dashboard2 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private DrawerLayout drawerLayout;
+
+public class dashboard2 extends AppCompatActivity {
+
+    FloatingActionButton fab;
+    DrawerLayout drawerLayout;
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard2);
 
-        Toolbar toolbar = findViewById(R.id.toolbar); //Ignore red line errors
-        setSupportActionBar(toolbar);
 
+
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        fab = findViewById(R.id.fab);
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav,
-                R.string.close_nav);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,R.string.open_nav, R.string.close_nav);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        if (savedInstanceState == null) {
+
+        if (savedInstanceState == null ){
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new homeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
         }
+        replaceFragment(new homeFragment());
+
+        bottomNavigationView.setBackground(null);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+
+            switch (item.getItemId()) {
+                case R.id.home:
+                    replaceFragment(new homeFragment());
+                    break;
+                case R.id.nav_playlists:
+                    replaceFragment(new playlistsFragment());
+                    break;
+                case R.id.nav_chats:
+                    replaceFragment(new chatsFragment());
+                    break;
+                case R.id.nav_suggestions:
+                    replaceFragment(new suggestionsFragment());
+                    break;
+            }
+
+            return true;
+        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showBottomDialog();
+            }
+        });
+
+    }
+    //Outside on create
+
+    private  void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, fragment);
+        fragmentTransaction.commit();
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.nav_home:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new homeFragment()).commit();
-                break;
+    private void showBottomDialog() {
 
-            case R.id.nav_settings:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new SettingsFragment()).commit();
-                break;
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottomsheetlayout);
 
-            case R.id.nav_playlists:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new playlistsFragment()).commit();
-                break;
+        LinearLayout videoLayout = dialog.findViewById(R.id.layoutVideo);
+        ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
 
-            case R.id.nav_chats:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new chatsFragment()).commit();
-                break;
-            case R.id.nav_suggestions:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new suggestionsFragment()).commit();
-                break;
+        videoLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-            case R.id.nav_logout:
-                Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show();
-                break;
-        }
+                dialog.dismiss();
+                Toast.makeText(dashboard2.this,"Upload a Music is clicked",Toast.LENGTH_SHORT).show();
 
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    }
+            }
+        });
 
-    @Override
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+
+
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+
     }
 }
