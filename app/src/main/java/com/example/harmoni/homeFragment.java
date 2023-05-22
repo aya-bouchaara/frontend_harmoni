@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import com.example.harmoni.helpers.SongClickListener;
 import com.example.harmoni.helpers.Song_RecyclerViewAdapter;
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
@@ -32,7 +33,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class homeFragment extends Fragment {
+public class homeFragment extends Fragment implements SongClickListener {
     private static final String CLIENT_ID = "b8f0cac7dd104537901f8d0fed64da41";
     private static final String REDIRECT_URI = "http://localhost:9000/callback";
     private SpotifyAppRemote mSpotifyAppRemote;
@@ -101,16 +102,20 @@ public class homeFragment extends Fragment {
         songs.put(song1);
         songs.put(song);
 
-
-        Song_RecyclerViewAdapter adapter = new  Song_RecyclerViewAdapter(requireContext(),songs);
+        Song_RecyclerViewAdapter adapter = new  Song_RecyclerViewAdapter(requireContext(),songs,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+
 
         mPlayButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+
+                Log.e("hey","hey");
                 if(mIsPlaying) pausePlayback();
                 else startPlayback();
+
             }
 
 
@@ -159,7 +164,7 @@ public class homeFragment extends Fragment {
 
     private void startPlayback() {
         if (mSpotifyAppRemote != null) {
-            mSpotifyAppRemote.getPlayerApi().play(currentSongURI);
+            mSpotifyAppRemote.getPlayerApi().play("spotify:playlist:37i9dQZF1DX2sUQwD7tbmL");
         }
     }
 
@@ -182,5 +187,12 @@ public class homeFragment extends Fragment {
     public void onStop() {
         super.onStop();
         SpotifyAppRemote.disconnect(mSpotifyAppRemote);
+    }
+
+    @Override
+    public void onSongClick(String songURI) {
+        mIsPlaying=false;
+        currentSongURI=songURI;
+        mPlayButton.performClick();
     }
 }
