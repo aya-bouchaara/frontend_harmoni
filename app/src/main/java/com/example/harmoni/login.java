@@ -71,7 +71,7 @@ public class login extends AppCompatActivity {
         // Instantiate The Request Queue:
         RequestQueue queue = Volley.newRequestQueue(login.this);
         // The URL Posting TO:
-        String url = "http://10.0.2.2:9000/authenticate";
+        String url = "http://10.1.6.48:9000/authenticate";
 
         // Set JSON Body:
         JSONObject jsonBody = new JSONObject();
@@ -90,7 +90,7 @@ public class login extends AppCompatActivity {
                         //TODO: Traitement de la réponse reçue du serveur ici
                         token = response;
                         // Set Intent Actions:
-                        Intent goToProfile = new Intent(login.this, Position.class);
+                        Intent goToProfile = new Intent(login.this, dashboard2.class);
                         // blast location ra 5s tkon dachboard
                         // Pass Values To Profile Activity:
                         // Start Activity:

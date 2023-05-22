@@ -164,7 +164,7 @@ public class homeFragment extends Fragment implements SongClickListener {
 
     private void startPlayback() {
         if (mSpotifyAppRemote != null) {
-            mSpotifyAppRemote.getPlayerApi().play("spotify:playlist:37i9dQZF1DX2sUQwD7tbmL");
+            mSpotifyAppRemote.getPlayerApi().play(currentSongURI);
         }
     }
 
