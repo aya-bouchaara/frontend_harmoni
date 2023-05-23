@@ -91,6 +91,8 @@ public class login extends AppCompatActivity {
                         token = response;
                         // Set Intent Actions:
                         Intent goToProfile = new Intent(login.this, dashboard2.class);
+
+                        goToProfile.putExtra("token",token);
                         // blast location ra 5s tkon dachboard
                         // Pass Values To Profile Activity:
                         // Start Activity:

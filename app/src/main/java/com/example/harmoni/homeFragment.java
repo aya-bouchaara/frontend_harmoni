@@ -1,5 +1,9 @@
 package com.example.harmoni;
 
+
+
+import static android.service.controls.ControlsProviderService.TAG;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,9 +17,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.harmoni.helpers.SongClickListener;
 import com.example.harmoni.helpers.Song_RecyclerViewAdapter;
 import com.spotify.android.appremote.api.ConnectionParams;
@@ -31,6 +44,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class homeFragment extends Fragment implements SongClickListener {
@@ -48,6 +64,13 @@ public class homeFragment extends Fragment implements SongClickListener {
     JSONObject song1 = new JSONObject();
     JSONObject song= new JSONObject();
 
+    private Button searchButton;
+
+
+    private String token ;
+    JSONArray jsonArray;
+    private EditText userValue;
+
 
 
 
@@ -60,9 +83,9 @@ public class homeFragment extends Fragment implements SongClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        searchView= rootView.findViewById(R.id.searchView);
         mPlayButton = rootView.findViewById(R.id.play_button);
 
+        userValue = rootView.findViewById(R.id.search);
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerView);
 
@@ -119,6 +142,22 @@ public class homeFragment extends Fragment implements SongClickListener {
             }
 
 
+        });
+
+        // Récupérer le token des arguments
+        if (getArguments() != null) {
+            token = getArguments().getString("token");
+            System.out.println("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH"+token);
+        }
+
+        userValue = rootView.findViewById(R.id.search);
+        searchButton = rootView.findViewById(R.id.searchButton);
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendGetRequestWithToken(token);
+            }
         });
 
 
@@ -195,4 +234,51 @@ public class homeFragment extends Fragment implements SongClickListener {
         currentSongURI=songURI;
         mPlayButton.performClick();
     }
+
+    // Method to send HTTP GET request with bearer token
+    private void sendGetRequestWithToken(String token) {
+        // Instantiate the RequestQueue
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
+
+        String userValue = this.userValue.getText().toString();
+        System.out.println(userValue);
+        String url = "http://10.1.6.48:9000/search/byName?q=" + userValue + "&limit=10";
+        System.out.println(url);
+
+        // Create a GET request
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Handle the response here
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            System.out.println(jsonArray.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error response
+                        Log.e(TAG, "Error: " + error.toString());
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                // Add the bearer token to the request headers
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);
+                return headers;
+            }
+
+
+        };
+
+        // Add the request to the RequestQueue
+        queue.add(stringRequest);
+    }
+
 }

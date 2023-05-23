@@ -1,6 +1,7 @@
 package com.example.harmoni;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -58,6 +59,19 @@ public class dashboard2 extends AppCompatActivity implements NavigationView.OnNa
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new homeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
         }
+
+        Intent intent = getIntent();
+        String token = intent.getStringExtra("token");
+
+        // Passer le token au fragment homeFragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        homeFragment fragment = new homeFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("token", token);
+        fragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.frame_layout, fragment);
+        fragmentTransaction.commit();
     }
 
 
