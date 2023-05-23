@@ -73,7 +73,7 @@ public class register extends AppCompatActivity {
         // Instantiate The Request Queue:
         RequestQueue queue = Volley.newRequestQueue(register.this);
         // The URL Posting TO:
-        String url = "http://10.0.2.2:9000/signup";
+        String url = "http://10.1.6.48:9000/signup";
 
         // Set JSON Body:
         JSONObject jsonBody = new JSONObject();

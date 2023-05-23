@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -55,7 +56,7 @@ public class homeFragment extends Fragment implements SongClickListener {
     private SpotifyAppRemote mSpotifyAppRemote;
 
     private boolean mIsPlaying = false;
-    private Button mPlayButton;
+    private ImageButton mPlayButton;
 
     private String currentSongURI;
 
@@ -97,7 +98,6 @@ public class homeFragment extends Fragment implements SongClickListener {
             @Override
             public void onClick(View view) {
 
-                Log.e("hey","hey");
                 if(mIsPlaying) pausePlayback();
                 else startPlayback();
 
@@ -154,7 +154,6 @@ public class homeFragment extends Fragment implements SongClickListener {
                             public void onEvent(PlayerState playerState) {
                                 Track track = playerState.track;
                                 mIsPlaying = playerState.isPaused == false;
-                                updateButton();
                             }
                         });
                     }
@@ -171,22 +170,22 @@ public class homeFragment extends Fragment implements SongClickListener {
     private void startPlayback() {
         if (mSpotifyAppRemote != null) {
             mSpotifyAppRemote.getPlayerApi().play(currentSongURI);
+            mPlayButton.setImageDrawable(getResources().getDrawable(
+                    R.drawable.baseline_pause_24
+            ));
         }
     }
 
     private void pausePlayback() {
         if (mSpotifyAppRemote != null) {
             mSpotifyAppRemote.getPlayerApi().pause();
+            mPlayButton.setImageDrawable(getResources().getDrawable(
+                    R.drawable.baseline_play_arrow_24
+            ));
         }
     }
 
-    private void updateButton() {
-        if (mIsPlaying) {
-            mPlayButton.setText("Pause Song");
-        } else {
-            mPlayButton.setText("Play Song");
-        }
-    }
+
 
 
     @Override
