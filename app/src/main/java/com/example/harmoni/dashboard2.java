@@ -1,6 +1,8 @@
 package com.example.harmoni;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -98,12 +100,36 @@ public class dashboard2 extends AppCompatActivity implements NavigationView.OnNa
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new SettingsFragment()).commit();
                 break;
             case R.id.nav_logout:
-                Toast.makeText(this , "logout!", Toast.LENGTH_SHORT).show();
+
+                logoutMenu();
                 break;
         }
        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+    private void logoutMenu() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Logout");
+        builder.setMessage("Are you sure you want to logout?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(dashboard2.this, MainActivity2.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+
+    @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
@@ -111,4 +137,9 @@ public class dashboard2 extends AppCompatActivity implements NavigationView.OnNa
             super.onBackPressed();
         }
     }
+
+    public void logout(View view) {
+        logoutMenu();
+    }
 }
+
