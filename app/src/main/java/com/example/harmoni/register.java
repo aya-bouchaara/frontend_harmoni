@@ -96,6 +96,9 @@ public class register extends AppCompatActivity {
                     password.setText(null);
                     confirm.setText(null);
                     Toast.makeText(register.this, "Registration Successful", Toast.LENGTH_LONG).show();
+                    Intent goToPosition = new Intent(register.this, Position.class);
+                    startActivity(goToPosition);
+
                 }
                 // End Of Response If Block.
 

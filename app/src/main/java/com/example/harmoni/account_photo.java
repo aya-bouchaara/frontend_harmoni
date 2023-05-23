@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -32,6 +33,15 @@ public class account_photo extends AppCompatActivity {
         setContentView(R.layout.activity_account_photo);
         cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        Button next = findViewById(R.id.button11);
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it=new Intent(account_photo.this, login.class);
+                startActivity(it);
+
+            }
+        });
 
         pick = (ImageView) findViewById(R.id.imageView7);
         pick.setOnClickListener(new View.OnClickListener() {

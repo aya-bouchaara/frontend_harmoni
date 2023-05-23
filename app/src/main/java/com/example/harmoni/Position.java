@@ -1,6 +1,7 @@
 package com.example.harmoni;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -20,52 +21,72 @@ import com.google.android.gms.tasks.OnSuccessListener;
 // on clique sur le bouton  de permission qui permet d'obtenir une autorisation permanente
 // une seule fois et capturer la localisation de l'utilisateur à chaque ouverture de l'application
 public class Position extends AppCompatActivity {
-        private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
-        // API Google Play Services pour récupérer la localisation de l'utilisateur.
-        private FusedLocationProviderClient fusedLocationClient;
+    // API Google Play Services pour récupérer la localisation de l'utilisateur.
+    private FusedLocationProviderClient fusedLocationClient;
 
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_position);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_position);
 
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-            Button button = findViewById(R.id.button9);
-            Button skip =findViewById(R.id.button7);
+        Button button = findViewById(R.id.button9);
+        Button next = findViewById(R.id.button7);
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it=new Intent(Position.this, account_photo.class);
+                startActivity(it);
 
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //il vérifie si la permission d'accès à la localisation est déjà accordée ou non
-                    // Demande de permission
-                    if (ActivityCompat.checkSelfPermission(Position.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(Position.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
-                    } else {
-                        // Permission déjà accordée
-                        getCurrentLocation();
-                    }
-                    //Ajouter le passage à l'interface d'insertion de music pour ce boutton ,
-                    // il faut faire la méme chose pour skip
+            }
+        });
+
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //il vérifie si la permission d'accès à la localisation est déjà accordée ou non
+                // Demande de permission
+                if (ActivityCompat.checkSelfPermission(Position.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(Position.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+                } else {
+                    // Permission déjà accordée
+                    getCurrentLocation();
                 }
-            });
-        }
+                //Ajouter le passage à l'interface d'insertion de music pour ce boutton ,
+                // il faut faire la méme chose pour skip
+            }
+        });
+    }
 
-        private void getCurrentLocation() {
-            fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            // Localisation actuelle capturée avec succès
-                            if (location != null) {
-                                double latitude = location.getLatitude();
-                                double longitude = location.getLongitude();
-                                //Un message Toast est une notification qui s'affiche brièvement sur l'écran d'un appareil Android.
-                                Toast.makeText(Position.this, "Latitude: " + latitude + " Longitude: " + longitude, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+    private void getCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                // Localisation actuelle capturée avec succès
+                if (location != null) {
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
+                    //Un message Toast est une notification qui s'affiche brièvement sur l'écran d'un appareil Android.
+                    Toast.makeText(Position.this, "Latitude: " + latitude + " Longitude: " + longitude, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         }
 
         //La méthode onRequestPermissionsResult() est appelée lorsque l'utilisateur

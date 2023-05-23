@@ -8,26 +8,32 @@
 
     <EditText
         android:id="@+id/search"
-        android:layout_width="253dp"
-        android:layout_height="54dp"
+        android:layout_width="341dp"
+        android:layout_height="58dp"
         android:layout_marginTop="4dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:hint="   Song name "
 
-        android:text="Name"
+        android:inputType="textPersonName"
+        android:textColorHint="#858585"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.089"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <ImageButton
         android:id="@+id/searchButton"
-        android:layout_width="127dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="4dp"
-        android:text="Button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/round_button1"
+        android:contentDescription="Play button"
+
+        android:scaleType="fitCenter"
+        android:src="@drawable/baseline_search_24"
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.947"
+        app:layout_constraintHorizontal_bias="0.955"
         app:layout_constraintStart_toStartOf="@+id/search"
         app:layout_constraintTop_toTopOf="parent" />
 

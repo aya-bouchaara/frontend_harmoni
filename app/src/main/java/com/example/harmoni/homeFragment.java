@@ -64,7 +64,7 @@ public class homeFragment extends Fragment implements SongClickListener {
     JSONArray songs = new JSONArray();
 
 
-    private Button searchButton;
+    private ImageButton searchButton;
 
 
     private String token ;
