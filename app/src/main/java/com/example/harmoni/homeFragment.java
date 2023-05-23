@@ -61,14 +61,12 @@ public class homeFragment extends Fragment implements SongClickListener {
 
     //JSON array declared here
     JSONArray songs = new JSONArray();
-    JSONObject song1 = new JSONObject();
-    JSONObject song= new JSONObject();
+
 
     private Button searchButton;
 
 
     private String token ;
-    JSONArray jsonArray;
     private EditText userValue;
 
 
@@ -89,45 +87,9 @@ public class homeFragment extends Fragment implements SongClickListener {
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerView);
 
-        try {
 
-            song1.put("images", new JSONArray()
-                    .put(new JSONObject("{\"height\": 640, \"url\": \"https://i.scdn.co/image/ab67616d0000b2731a84d71391df7469c5ab8539\", \"width\": 640}"))
-                    .put(new JSONObject("{\"height\": 300, \"url\": \"https://i.scdn.co/image/ab67616d00001e021a84d71391df7469c5ab8539\", \"width\": 300}"))
-                    .put(new JSONObject("{\"height\": 64, \"url\": \"https://i.scdn.co/image/ab67616d000048511a84d71391df7469c5ab8539\", \"width\": 64}")));
 
-            song1.put("artist", "Pink Floyd");
-            song1.put("album", "Wish You Were Here");
-            song1.put("name", "Wish You Were Here");
-            song1.put("uri", "spotify:track:6mFkJmJqdDVQ1REhVfGgd1");
 
-        } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        try {
-
-            song.put("images", new JSONArray()
-                    .put(new JSONObject("{\"height\": 640, \"url\": \"https://i.scdn.co/image/ab67616d0000b273ea7caaff71dea1051d49b2fe\", \"width\": 640}"))
-                    .put(new JSONObject("{\"height\": 300, \"url\": \"https://i.scdn.co/image/ab67616d00001e02ea7caaff71dea1051d49b2fe\", \"width\": 300}"))
-                    .put(new JSONObject("{\"height\": 64, \"url\": \"https://i.scdn.co/image/ab67616d00004851ea7caaff71dea1051d49b2fe\", \"width\": 64}")));
-
-            song.put("artist", "Pink Floyd");
-            song.put("album", "The Dark Side of the Moon");
-            song.put("name", "The Great Gig in the Sky");
-            song.put("uri", "spotify:track:2TjdnqlpwOjhijHCwHCP2d");
-
-        } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        songs.put(song1);
-        songs.put(song);
-
-        Song_RecyclerViewAdapter adapter = new  Song_RecyclerViewAdapter(requireContext(),songs,this);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
 
 
@@ -147,16 +109,21 @@ public class homeFragment extends Fragment implements SongClickListener {
         // Récupérer le token des arguments
         if (getArguments() != null) {
             token = getArguments().getString("token");
-            System.out.println("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH"+token);
+            System.out.println(token);
         }
 
         userValue = rootView.findViewById(R.id.search);
         searchButton = rootView.findViewById(R.id.searchButton);
 
+        SongClickListener songClickListener = this;
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sendGetRequestWithToken(token);
+                Song_RecyclerViewAdapter adapter = new  Song_RecyclerViewAdapter(requireContext(),songs,songClickListener);
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
             }
         });
 
@@ -252,8 +219,8 @@ public class homeFragment extends Fragment implements SongClickListener {
                     public void onResponse(String response) {
                         // Handle the response here
                         try {
-                            JSONArray jsonArray = new JSONArray(response);
-                            System.out.println(jsonArray.toString());
+                            songs = new JSONArray(response);
+                            System.out.println(songs.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
